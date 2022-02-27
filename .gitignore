@@ -1,7 +1,7 @@
+/docs/*
 node_modules
 *.log
 .nuxt
-/docs/*
 nuxt.d.ts
 .output
 .env
