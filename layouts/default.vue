@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar v-if="route.meta.title" :title="route.meta.title" />
-    <block>
+    <block id="block">
       <slot />
     </block>
     <tabbar />
@@ -21,5 +21,8 @@
 <style>
   body {
     background-color: #f5f6f7;
+  }
+  #block {
+    margin: 18px 0 64px 0;
   }
 </style>

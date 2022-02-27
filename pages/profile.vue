@@ -14,7 +14,5 @@
 </template>
 
 <script setup>
-  definePageMeta({
-    title: 'Mon compte'
-  })
+  definePageMeta({ title: 'Mon compte' })
 </script>
