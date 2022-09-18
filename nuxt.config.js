@@ -21,7 +21,7 @@ export default {
   css: ['vant/lib/index.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/vant'],
+  plugins: ['@/plugins/vant', '@/plugins/pocketbase'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
