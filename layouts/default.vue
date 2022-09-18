@@ -1,9 +1,9 @@
 <template>
-  <h1>tanca</h1>
+  <tabbar></tabbar>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage',
+  name: 'DefaultLayout',
 }
 </script>

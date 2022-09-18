@@ -1,9 +1,9 @@
 <template>
-  <h1>tanca</h1>
+  <h1>Votre compte</h1>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage',
+  name: 'ProfilePage',
 }
 </script>
