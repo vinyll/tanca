@@ -1,9 +1,4 @@
-import { defineNuxtPlugin } from '#app'
-import vant from 'vant'
+import Vue from 'vue'
+import Vant from 'vant'
 
-import 'vant/lib/index.css'
-
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp
-    .use(vant)
-})
+Vue.use(Vant)

@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <van-cell-group inset>
-    </van-cell-group>
-  </div>
+  <h1>tanca</h1>
 </template>
+
+<script>
+export default {
+  name: 'IndexPage',
+}
+</script>
