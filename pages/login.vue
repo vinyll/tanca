@@ -1,20 +1,26 @@
 <template>
   <van-form @submit="submit">
     <van-cell-group inset>
+      <h3>Informations de carte</h3>
       <van-field
-        v-model="email"
-        type="email"
-        name="email"
-        label="Email"
-        placeholder="moi@mail.com"
-        :rules="[{ required: true, message: 'Ce champs est requis' }]"
+        v-model="uid"
+        type="text"
+        name="uid"
+        label="Numéro"
+        placeholder="A2D4"
+        minlength="4"
+        maxlength="4"
+        :rules="[{ required: true, message: 'Votre numéro de carte est requis' }]"
       />
       <van-field
-        v-model="password"
-        type="password"
-        name="Password"
-        label="Mot de passe"
-        :rules="[{ required: true, message: 'Votre mot de passe est requis' }]"
+        v-model="key"
+        type="text"
+        name="key"
+        label="Clé"
+        placeholder="a1a2a3a4a8"
+        minlength="10"
+        maxlength="10"
+        :rules="[{ required: true, message: 'Votre code clé est requis' }]"
       />
     </van-cell-group>
     <div style="margin: 16px;">
@@ -27,26 +33,33 @@
 
 <script>
   import { ref } from 'vue'
+  import { Toast } from 'vant'
 
   export default {
     name: 'LoginPage',
     setup() {
       return {
-        email: ref(''),
-        password: ref(''),
+        uid: ref(''),
+        key: ref(''),
       }
     },
 
-    async mounted() {
-      const client = this.$pocketbase
-      const records = await client.records.getFullList('transactions', 200 /* batch size */, {
-        sort: '-created',
-      })
-    },
-
     methods: {
-      submit() {
-
+      async submit() {
+        const client = this.$pocketbase
+        const response = await client.records.getList('cards', 1, 1, {
+          filter: `uid="${this.uid}" && key="${this.key}"`
+        })
+        const user = response.items[0]
+        if(user) {
+          localStorage.setItem('user', user)
+          this.$router.push({ path: 'profile' })
+        } else {
+          const toast = Toast({
+            message: 'Invalide',
+            icon: 'cross',
+          })
+        }
       }
     }
   }
