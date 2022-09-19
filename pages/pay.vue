@@ -58,16 +58,35 @@
     },
 
     methods: {
-      submit() {
-        const toast = Toast({
-          message: 'Envoyé !',
-          icon: 'success',
-          onClose: () => {
-            this.euros = ''
-            this.showPad = true
-            this.recipient = ''
-          },
-        })
+      async submit() { 
+        const client = this.$pocketbase
+        try {
+          const fromResponse = await client.records.getList('cards', 1, 1, {
+              filter: 'uid = "0000"',
+          })
+          const toResponse = await client.records.getList('cards', 1, 1, {
+              filter: `uid = "${this.recipient}"`,
+          })
+          const record = await client.records.create('transactions', {
+            from: fromResponse.items[0].id,
+            to: toResponse.items[0].id,
+            amount: this.amount,
+          })
+          const toast = Toast({
+            message: 'Envoyé !',
+            icon: 'success',
+            onClose: () => {
+              this.euros = ''
+              this.showPad = true
+              this.recipient = ''
+            },
+          })
+        } catch(e) {
+          const toast = Toast({
+            message: 'Erreur…',
+            icon: 'error',
+          })
+        }
       }
     }
   }
