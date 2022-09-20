@@ -52,8 +52,8 @@
         })
         const user = response.items[0]
         if(user) {
-          localStorage.setItem('user', JSON.stringify(user))
-          this.$router.push({ path: 'profile' })
+          localStorage.setItem('userId', user.id)
+          this.$router.push('profile')
         } else {
           const toast = Toast({
             message: 'Invalide',

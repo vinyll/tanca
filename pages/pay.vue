@@ -13,8 +13,8 @@
         <van-field v-model="recipient" placeholder="A1B2" pattern="[a-zA-Z0-9]{4}" maxlength="4" minlength="4" />
       </section>
 
-      <section id="submit" :disabled="$user.credit < this.amount" v-if="amount && recipientIsValid">
-        <van-button round type="primary" @click="submit">
+      <section id="submit" v-if="amount && recipientIsValid">
+        <van-button round type="primary" :disabled="$user.credit < amount" @click="submit">
           Envoyer {{amount}} point
         </van-button>
       </section>
@@ -38,7 +38,7 @@
     setup() {
       return {
         showPad: ref(true),
-        euros: ref(''),
+        euros: ref('100'),
         recipient: ref(''),
       }
     },
@@ -56,17 +56,32 @@
     },
 
     methods: {
-      async submit() { 
+      async submit() {
         const client = this.$pocketbase
         try {
+          // get recipient
           const toResponse = await client.records.getList('cards', 1, 1, {
               filter: `uid = "${this.recipient}"`,
           })
+          const recipient = toResponse.items[0]
+
+          // remove credit from user
+          await client.records.update('cards', recipient.id, {
+            credit: recipient.credit + this.amount
+          })
+          
+          // save transaction in history
           const record = await client.records.create('transactions', {
             from: this.$user.id,
-            to: toResponse.items[0].id,
+            to: recipient.id,
             amount: this.amount,
           })
+          
+          // give credit to recipient
+          await client.records.update('cards', this.$user.id, {
+            credit: this.$user.credit - this.amount
+          })
+
           const toast = Toast({
             message: 'Envoyé !',
             icon: 'success',
@@ -88,12 +103,15 @@
 </script>
 
 <style>
-:host() {
-  --van-toast-background-color: rgb(91, 160, 74);
-}
+  :host() {
+    --van-toast-background-color: rgb(91, 160, 74);
+  }
   h1, h2, h3 {
     text-align: center;
     margin: 0;
+  }
+  section {
+    padding: 1.5rem;
   }
   .van-cell {
     background-color: transparent;
