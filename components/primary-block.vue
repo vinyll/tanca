@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="primary-block">
     &nbsp;
     <h2>{{title}}</h2>
     <div class="content"><slot /></div>
@@ -13,16 +13,17 @@
 </script>
 
 <style>
-  section {
+  section.primary-block {
     padding: 1.44rem;
     background-color: rgb(10, 110, 110);
     color: white;
   }
-  section * {
+  section.primary-block * {
     text-align: center;
     color: inherit;
   }
-  .content {
+  .content,
+  .content * {
     font-size: 50px;
   }
 </style>

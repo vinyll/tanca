@@ -41,7 +41,7 @@
     methods: {
       logout() {
         this.$user = null
-        localStorage.removeItem('user')
+        localStorage.removeItem('userId')
         this.$router.push('login')
       },
     },
