@@ -1,5 +1,5 @@
 <template>
   <div>
-    <tabbar></tabbar>
+    <Nuxt />
   </div>
 </template>
