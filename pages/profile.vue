@@ -1,5 +1,8 @@
 <template>
   <div>
+    <primary-block title="Ma carte">
+      {{$user.credit}} <small>points</small>
+    </primary-block>
     <van-cell-group inset>
       <van-cell v-for="item in history" :class="item.direction" v-bind:key="item.id" :title="item.label" :value="item.displayDate" />
     </van-cell-group>
@@ -14,11 +17,13 @@
 
 <script>
   import { ref } from 'vue'
+import primaryBlock from '~/components/primary-block.vue'
 
   export default {
+  components: { primaryBlock },
     setup() {
       return {
-        'history': ref([]),
+        history: ref([]),
       }
     },
 
