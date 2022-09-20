@@ -36,7 +36,7 @@
   import { Toast } from 'vant'
 
   export default {
-    name: 'LoginPage',
+    layout: 'blank',
     setup() {
       return {
         uid: ref(''),
@@ -52,7 +52,7 @@
         })
         const user = response.items[0]
         if(user) {
-          localStorage.setItem('user', user)
+          localStorage.setItem('user', JSON.stringify(user))
           this.$router.push({ path: 'profile' })
         } else {
           const toast = Toast({
