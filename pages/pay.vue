@@ -1,10 +1,8 @@
 <template>
     <div>
-      <section id="euros">
-        &nbsp;
-        <h2>Montant dépensé</h2>
+      <primary-block title="Montant dépensé">
         <van-field class="euros" v-model="eurosString" readonly clickable @touchstart.stop="showPad = true" />
-      </section>
+      </primary-block>
 
       <section id="amount" v-if="euros">
         <h3>{{amount}} points 🏅</h3>
@@ -15,7 +13,7 @@
         <van-field v-model="recipient" placeholder="A1B2" pattern="[a-zA-Z0-9]{4}" maxlength="4" minlength="4" />
       </section>
 
-      <section id="submit" v-if="amount && recipientIsValid">
+      <section id="submit" :disabled="$user.credit < this.amount" v-if="amount && recipientIsValid">
         <van-button round type="primary" @click="submit">
           Envoyer {{amount}} point
         </van-button>
@@ -61,14 +59,11 @@
       async submit() { 
         const client = this.$pocketbase
         try {
-          const fromResponse = await client.records.getList('cards', 1, 1, {
-              filter: 'uid = "0000"',
-          })
           const toResponse = await client.records.getList('cards', 1, 1, {
               filter: `uid = "${this.recipient}"`,
           })
           const record = await client.records.create('transactions', {
-            from: fromResponse.items[0].id,
+            from: this.$user.id,
             to: toResponse.items[0].id,
             amount: this.amount,
           })
@@ -100,18 +95,10 @@
     text-align: center;
     margin: 0;
   }
-  section {
-    padding: 1.44rem;
-  }
-  #euros {
-    background-color: rgb(10, 110, 110);
-    color: white;
-  }
-  #euros .van-cell {
+  .van-cell {
     background-color: transparent;
     color: inherit;
   }
-  .euros,
   #recipient input {
     font-size: 50px;
   }
