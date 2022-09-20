@@ -17,10 +17,8 @@
 
 <script>
   import { ref } from 'vue'
-import primaryBlock from '~/components/primary-block.vue'
 
   export default {
-  components: { primaryBlock },
     setup() {
       return {
         history: ref([]),
@@ -31,6 +29,7 @@ import primaryBlock from '~/components/primary-block.vue'
       const response = await this.$pocketbase.records.getFullList('transactions', 50, {
           sort: '-created',
       })
+      
       this.history = response.map(item => {
         item.direction = item.from == this.$user.id ? 'deposit' : 'withdraw'
         item.label = `${item.from == this.$user.id ? '-' : '+'}${item.amount} points`
@@ -45,11 +44,7 @@ import primaryBlock from '~/components/primary-block.vue'
         localStorage.removeItem('user')
         this.$router.push('login')
       },
-
     },
-      displayHistoryTitle(item) {
-        return `${item.from == $user.id ? '-' : '+'}${item.amount}`
-      }
   }
 </script>
 
