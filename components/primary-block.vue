@@ -3,6 +3,7 @@
     &nbsp;
     <h2>{{title}}</h2>
     <div class="content"><slot /></div>
+    <slot name="aside" />
   </section>
 </template>
 
@@ -26,4 +27,8 @@
   .content * {
     font-size: 50px;
   }
+  aside {
+    font-size: 20px;
+  }
+
 </style>
