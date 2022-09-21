@@ -1,5 +1,6 @@
 export default function ({ redirect, route }) {
-  const jsonUser = localStorage.getItem('user') || '{}'
-  const user = JSON.parse(jsonUser)
-  if (!user.id && route.name !== 'login') redirect('login')
+  const userId = localStorage.getItem('userId') || ''
+  if (userId && route.name === 'login') redirect('profile')
+  if (!userId && route.name !== 'login') redirect('login')
+  
 }

@@ -1,7 +1,8 @@
 <template>
   <div>
     <primary-block title="Ma carte">
-      {{$user.credit}} <small>points</small>
+      {{$user.uid}}
+      <aside slot="aside"><small>{{$user.credit}} points</small></aside>
     </primary-block>
     <van-cell-group inset>
       <van-cell v-for="item in history" :class="item.direction" v-bind:key="item.id" :title="item.label" :value="item.displayDate" />
