@@ -8,7 +8,7 @@
       <van-cell v-for="item in history" :class="item.direction" v-bind:key="item.id" :title="item.label" :value="item.displayDate" />
     </van-cell-group>
     
-    <van-row justify="center">
+    <van-row justify="center" id="logout">
       <van-col offset="6" span="12">
         <van-button block round type="primary" @click="logout" icon="closed-eye">Quitter ma session</van-button>
       </van-col>
@@ -27,6 +27,8 @@
     },
     
     async mounted() {
+      this.$card = await this.$loadCard()
+      
       const response = await this.$pocketbase.records.getFullList('transactions', 50, {
           sort: '-created',
           cardId: this.$card.id,
@@ -56,5 +58,9 @@
   }
   .deposit {
     color:red;
+  }
+
+  #logout {
+    margin-bottom: 50px;
   }
 </style>
