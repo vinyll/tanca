@@ -29,6 +29,7 @@
     async mounted() {
       const response = await this.$pocketbase.records.getFullList('transactions', 50, {
           sort: '-created',
+          cardId: this.$user.id,
       })
       
       this.history = response.map(item => {
