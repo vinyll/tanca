@@ -48,7 +48,7 @@
       async submit() {
         const client = this.$pocketbase
         const response = await client.records.getList('cards', 1, 1, {
-          filter: `uid="${this.uid}" && key="${this.key}"`
+          filter: `uid="${this.uid.toUpperCase()}" && key="${this.key.toLowerCase()}"`
         })
         const card = response.items[0]
         if(card) {
