@@ -1,14 +1,17 @@
 import Vue from 'vue'
 
-const cardId = localStorage.getItem('cardId')
 Vue.prototype.$card = {}
 
+function loadCard() {
+  const cardId = localStorage.getItem('cardId')
+  return Vue.prototype.$pocketbase.records.getOne('cards', cardId)
+}
+// Allow components to force-access the card item calling it themselves
+Vue.prototype.$loadCard = loadCard
+
 if(cardId) {
+  // Inject the value of the card
   ;(async function() {
-    const client = Vue.prototype.$pocketbase
-    const card = await client.records.getOne('cards', cardId)
-    Vue.prototype.$card = card
+    Vue.prototype.$card = await loadCard()
   })()
 }
-
-// (@request.data.uid = uid && @request.data.key = key) || @request.data.id = id
