@@ -50,9 +50,9 @@
         const response = await client.records.getList('cards', 1, 1, {
           filter: `uid="${this.uid}" && key="${this.key}"`
         })
-        const user = response.items[0]
-        if(user) {
-          localStorage.setItem('userId', user.id)
+        const card = response.items[0]
+        if(card) {
+          localStorage.setItem('cardId', card.id)
           this.$router.push('profile')
         } else {
           const toast = Toast({

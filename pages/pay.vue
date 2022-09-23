@@ -14,7 +14,7 @@
       </section>
 
       <section id="submit" v-if="amount && recipientIsValid">
-        <van-button round type="primary" :disabled="$user.credit < amount" @click="submit">
+        <van-button round type="primary" :disabled="$card.credit < amount" @click="submit">
           Envoyer {{amount}} point
         </van-button>
       </section>
@@ -65,21 +65,21 @@
           })
           const recipient = toResponse.items[0]
 
-          // remove credit from user
+          // remove credit from card
           await client.records.update('cards', recipient.id, {
             credit: recipient.credit + this.amount
           })
           
           // save transaction in history
           const record = await client.records.create('transactions', {
-            from: this.$user.id,
+            from: this.$card.id,
             to: recipient.id,
             amount: this.amount,
           })
           
           // give credit to recipient
-          await client.records.update('cards', this.$user.id, {
-            credit: this.$user.credit - this.amount
+          await client.records.update('cards', this.$card.id, {
+            credit: this.$card.credit - this.amount
           })
 
           const toast = Toast({
