@@ -38,7 +38,7 @@
     setup() {
       return {
         showPad: ref(true),
-        euros: ref(''),
+        euros: ref('22'),
         recipient: ref(''),
       }
     },
@@ -61,7 +61,7 @@
         try {
           // get recipient
           const toResponse = await client.records.getList('cards', 1, 1, {
-              filter: `uid = "${this.recipient}"`,
+              filter: `uid = "${this.recipient.toUpperCase()}"`,
           })
           const recipient = toResponse.items[0]
 
