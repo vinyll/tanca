@@ -38,7 +38,7 @@
     setup() {
       return {
         showPad: ref(true),
-        euros: ref('22'),
+        euros: ref(''),
         recipient: ref(''),
       }
     },
